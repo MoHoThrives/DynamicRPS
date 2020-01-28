@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <Title>Rock Paper Scissors</Title>
+</head>
+
+<body>
+    <h1>Rock Paper Scissor Game</h1>
+    <div id="Options">
+        <button value="rock">Rock</button>
+        <button value="paper">Paper</button>
+        <button value="scissor">Scissor</button>
+    </div>
+
+    <div id="results">
+        <h2>Results</h2>
+        <h3></h3>
+        <h4></h4>
+    </div>
+    <script>
+        let computerScore = 0;
+        let playerScore = 0;
+        let winnerTag = document.querySelector("#results h4");
+        let computerPlay = () => {
+            let randNum = Math.floor(Math.random() * 3);
+            let randSelection;
+            switch (randNum) {
+                case 0:
+                    randSelection = "rock";
+                    break;
+                case 1:
+                    randSelection = "scissor";
+                    break;
+                case 2:
+                    randSelection = "paper";
+                    break;
+            }
+            return randSelection;
+        }
+
+        let isValidInput = userSelection => {
+            if (userSelection == 'rock' || userSelection == 'paper' || userSelection == 'scissor') {
+                return true;
+            }
+            return false;
+        }
+
+        function checkScore() {
+            if(playerScore >= 5) { winnerTag.textContent = ("Player Wins"); }
+            else if(computerScore >= 5) { winnerTag.textContent = ("Computer Wins"); }
+            else winnerTag.textContent = ("No winner yet!");
+        }
+
+        function getWinner(playerSelection, computerSelection) {
+            playerSelection = playerSelection.toLowerCase();
+            computerSelection = computerSelection.toLowerCase();
+            const resultTag = document.querySelector("#results h3");
+
+            if (!isValidInput(playerSelection)) {
+                resultTag.textContent = ("Please Enter a valid Input");
+            }
+            if (playerSelection === 'rock' && computerSelection === 'scissor') {
+                resultTag.textContent = ("You Win! Rock beats Scissor");
+                playerScore++;
+            } else if (playerSelection === 'scissor' && computerSelection === 'rock') {
+                resultTag.textContent = ("You Lose! Rock beats Scissor");
+                computerScore++;
+            }
+            else if (playerSelection === 'rock' && computerSelection === 'paper') {
+                resultTag.textContent = ("You Lose! Paper beats Rock");
+                computerScore++;
+            }
+            else if (playerSelection === 'paper' && computerSelection === 'rock') {
+                resultTag.textContent = ("You Win! Paper beats Rock");
+                playerScore++;
+            }
+            else if (playerSelection === 'paper' && computerSelection === 'scissor') {
+                resultTag.textContent = ("You Lose! Scissor beats paper");
+                computerScore++;
+            }
+            else if (playerSelection === 'scissor' && computerSelection === 'paper') {
+                resultTag.textContent = ("You Win! Scissor beats paper");
+                playerScore++;
+            }
+            else {
+                resultTag.textContent = ("It's a Tie!");
+            }
+        }
+
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                const computerSelection = computerPlay();
+                getWinner(btn.value, computerSelection);
+                checkScore();
+            });
+        });
+
+        // let game = () => {
+
+        // }
+    </script>
+</body>
+
+</html>
